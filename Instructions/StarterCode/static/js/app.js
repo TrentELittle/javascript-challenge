@@ -1,48 +1,35 @@
 // from data.js
 var tableData = data;
-console.log(tableData);
 
-// table body reference
-var tbody = d3.select("tbody");
+let tbody = d3.select("tbody");
 
+function buildTable(data){
 
-//call to the values for UFO sightings
-tableData.forEach(function(sighting) {
-	console.log(sighting);
-	var tr = tbody.append("tr");
+    tbody.html("");
 
-	//log each ufo sighting value
-	Object.entries(sighting).forEach(function([key, value]) {
-		console.log(key, value);
-		var td = tr.append("td");
-		td.text(value);
-	});
-});
+    data.forEach((dataRow) => {
 
-//click on the button 
-var button = d3.select("#filter-btn");
-button.on("click", funtion() {
-	tbody.html("");
+        let row = tbody.append("tr");
+               
+        Object.values(dataRow).forEach((val) => {
+           let cell = row.append("td");
+           cell.text(val);
+       });
+    })
+}
 
-	//select input date and get the date, state, and shape of returned values
-	var inputDate = d3.select("#datetime");
-	var inputReturn = inputDate.property("value");
-	console.log(inputReturn);
+function handleClick(){
+    d3.event.preventDefault();
 
-	//Filter datetime to equal the inputReturn
-	var fileteredData = tableData.filter(sighting => sighting.datetime === inputReturn);
-	console.log(fileteredData);
+    let date = d3.select("#datetime").property("value");
+    let filterData = tableData;
 
-	fileteredData.forEach(function(results) {
-		console.log(results);
+    if(date) {
+        filterData = filterData.filter((row) => row.datetime === date);
+    }
+    buildTable(filterData);
+}
 
-		//append  the results one table row and cell for each result
-		var tr = tbody.append("tr");
-		Object.entries(results).forEach(function([key, value]) {
-			console.log(key, value);
-			var td = tr.append("td");
-			td.text(value)
-		});
+d3.selectAll("#filter-btn").on('click', handleClick);
 
-	});
-});
+buildTable(tableData);
