@@ -9,13 +9,13 @@ var tbody = d3.select("tbody");
 //call to the values for UFO sightings
 tableData.forEach(function(sighting) {
 	console.log(sighting);
-	var row = tbody.append("tr");
+	var tr = tbody.append("tr");
 
 	//log each ufo sighting value
 	Object.entries(sighting).forEach(function([key, value]) {
 		console.log(key, value);
-		var cell = row.append("td");
-		cell.text(value);
+		var td = tr.append("td");
+		td.text(value);
 	});
 });
 
@@ -40,7 +40,7 @@ button.on("click", funtion() {
 		var tr = tbody.append("tr");
 		Object.entries(results).forEach(function([key, value]) {
 			console.log(key, value);
-			var td = row.append("td");
+			var td = tr.append("td");
 			td.text(value)
 		});
 
